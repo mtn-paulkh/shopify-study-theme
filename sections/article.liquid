@@ -10,7 +10,13 @@
   {{ article.image | image_url: width: 1000 | image_tag }}
 {% endif %}
 
-<h1>{{ article.title }}</h1>
+<header>
+  <h1>{{ article.title }}</h1>
+  {% assign brand = article.metafields.tags.brand.value %}
+  <p>
+    <image src="{{ brand.icon.value | image_url: width: 100 }}" alt="{{ brand.title.value }}" />{{ brand.name.value }}
+  </p>
+</header>
 
 {% assign date = article.published_at | time_tag: format: 'date' %}
 <p>{{ 'blog.article_metadata_html' | t: date: date, author: article.author }}</p>

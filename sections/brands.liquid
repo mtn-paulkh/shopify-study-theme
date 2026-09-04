@@ -1,0 +1,258 @@
+<section
+  class="brands color-{{ section.settings.color_scheme }}"
+  style="
+    --brands-columns-desktop: {{ section.settings.columns_desktop }};
+    --brands-columns-mobile: {{ section.settings.columns_mobile }};
+    --brands-padding-top: {{ section.settings.padding_top }}px;
+    --brands-padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="brands__inner">
+    {%- if section.settings.title != blank -%}
+      <h2 class="brands__title">{{ section.settings.title | escape }}</h2>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="brands__grid" role="list">
+        {%- for block in section.blocks -%}
+          <li class="brands__item" {{ block.shopify_attributes }}>
+            {%- liquid
+              assign brand_title = block.settings.title | default: 'Brand'
+              assign brand_alt = brand_title | escape
+            -%}
+            <p>{{ block.settings.title }}</p>
+            {%- if block.settings.link != blank -%}
+              <a
+                class="brands__link"
+                href="/pages/{{ section.settings.brand_page_prefix }}/{{ block.settings.handle }}"
+                aria-label="{{ brand_alt }}"
+              >
+            {%- else -%}
+              <div class="brands__link brands__link--static">
+            {%- endif -%}
+
+            {%- if block.settings.logo != blank -%}
+              {{
+                block.settings.logo
+                | image_url: width: 400
+                | image_tag: loading: 'lazy', alt: brand_alt, class: 'brands__logo', widths: '200, 300, 400'
+              }}
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'brands__logo brands__logo--placeholder' }}
+            {%- endif -%}
+
+            {%- if block.settings.link != blank -%}
+              </a>
+            {%- else -%}
+              </div>
+            {%- endif -%}
+            <p>
+              <a target="_blank" href="{{ block.settings.link }}">site</a>
+            </p>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .brands {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    padding-top: var(--brands-padding-top, 36px);
+    padding-bottom: var(--brands-padding-bottom, 36px);
+  }
+
+  .brands__inner {
+    width: min(var(--page-width), 100% - var(--page-margin) * 2);
+    margin-inline: auto;
+  }
+
+  .brands__title {
+    margin: 0 0 2rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .brands__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--brands-columns-mobile, 2), minmax(0, 1fr));
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  @media (min-width: 750px) {
+    .brands__grid {
+      grid-template-columns: repeat(var(--brands-columns-desktop, 4), minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+  }
+
+  .brands__item {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brands__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 3 / 2;
+    padding: 1.25rem;
+    border: 1px solid color-mix(in srgb, var(--color-foreground) 12%, transparent);
+    border-radius: var(--style-border-radius-inputs, 4px);
+    background-color: color-mix(in srgb, var(--color-background) 92%, var(--color-foreground));
+    text-decoration: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .brands__link:focus-visible {
+    outline: 2px solid var(--color-foreground);
+    outline-offset: 2px;
+  }
+
+  .brands__link:hover {
+    border-color: color-mix(in srgb, var(--color-foreground) 28%, transparent);
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--color-foreground) 8%, transparent);
+    transform: translateY(-2px);
+  }
+
+  .brands__logo {
+    display: block;
+    width: 100%;
+    max-width: 10rem;
+    height: auto;
+    max-height: 4rem;
+    object-fit: contain;
+  }
+
+  .brands__logo--placeholder {
+    width: 100%;
+    max-width: 6rem;
+    height: auto;
+    opacity: 0.35;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.brands.name",
+  "tag": "section",
+  "class": "brands-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.brands.settings.title.label",
+      "default": "Our brands"
+    },
+    {
+      "id": "brand_page_prefix",
+      "type": "text",
+      "label": "Page URL prefix",
+      "default": "brand"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.brands.settings.layout_header"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "t:sections.brands.settings.columns_desktop.label",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "label": "t:sections.brands.settings.columns_mobile.label",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "t:general.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.brands.settings.color_scheme.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.brands.settings.spacing_header"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "t:sections.brands.settings.padding_top.label",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "t:sections.brands.settings.padding_bottom.label",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "t:sections.brands.blocks.brand.name",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "t:sections.brands.blocks.brand.settings.logo.label"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:sections.brands.blocks.brand.settings.title.label",
+          "default": "Brand"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.brands.blocks.brand.settings.link.label"
+        },
+        {
+          "type": "text",
+          "id": "handle",
+          "label": "Handle",
+          "info": "The handle is the last part of the URL for the brand page. For example, if the URL is https://yourstore.com/pages/brand/lacoste, the handle is 'lacoste'."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.brands.presets.default",
+      "blocks": [{ "type": "brand" }, { "type": "brand" }, { "type": "brand" }]
+    }
+  ]
+}
+{% endschema %}

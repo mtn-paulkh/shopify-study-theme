@@ -57,7 +57,12 @@
     "page_width": "Page width",
     "show_payment_icons": "Show payment icons",
     "text_style": "Text style",
-    "text": "Text"
+    "text": "Text",
+    "background_gradient": "Background gradient",
+    "button_background": "Button background",
+    "button_label": "Button label",
+    "secondary_button_label": "Secondary button label",
+    "shadow": "Shadow"
   },
   "options": {
     "alignment": {
@@ -81,6 +86,52 @@
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
-    },
+    }
+  },
+  "sections": {
+    "brands": {
+      "name": "Brands",
+      "settings": {
+        "title": {
+          "label": "Heading"
+        },
+        "layout_header": "Layout",
+        "columns_desktop": {
+          "label": "Columns on desktop"
+        },
+        "columns_mobile": {
+          "label": "Columns on mobile"
+        },
+        "color_scheme": {
+          "label": "Color scheme"
+        },
+        "spacing_header": "Spacing",
+        "padding_top": {
+          "label": "Top padding"
+        },
+        "padding_bottom": {
+          "label": "Bottom padding"
+        }
+      },
+      "blocks": {
+        "brand": {
+          "name": "Brand",
+          "settings": {
+            "logo": {
+              "label": "Logo"
+            },
+            "title": {
+              "label": "Brand name"
+            },
+            "link": {
+              "label": "Link"
+            }
+          }
+        }
+      },
+      "presets": {
+        "default": "Brands"
+      }
+    }
   }
 }
