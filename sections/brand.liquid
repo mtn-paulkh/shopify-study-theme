@@ -1,0 +1,260 @@
+{% comment %}
+  This section is used in the brand template to render the brand page listing all
+  products within a brand.
+{% endcomment %}
+<header class="brand-header">
+  <img
+    width="100"
+    height="100"
+    src="{{ metaobject.icon.value | image_url: width: 100 }}"
+    alt="{{ metaobject.name.value }}"
+  >
+  <h1>{{ metaobject.name.value }}</h1>
+</header>
+<div class="brand-description">
+  <p class="brand-description-text">{{ metaobject.full_description.value }}</p>
+</div>
+
+{%- liquid
+  assign brand_collection = null
+
+  if brand_collection == blank
+    for coll in collections
+      assign coll_brand = coll.metafields.custom.brand.value
+      if coll_brand != blank and coll_brand.system.id == metaobject.system.id
+        assign brand_collection = coll
+        break
+      endif
+    endfor
+  endif
+-%}
+
+{% if brand_collection != blank %}
+  {% paginate brand_collection.products by 2 %}
+    <div class="brand-products">
+      {% for product in brand_collection.products %}
+        <div class="brand-product">
+          {% if product.featured_image %}
+            {% render 'image',
+              class: 'brand-product__image',
+              image: product.featured_image,
+              url: product.url,
+              width: 400,
+              height: 400,
+              crop: 'center'
+            %}
+          {% endif %}
+          <div class="brand-product__content">
+            <p>{{ product.title | escape | link_to: product.url }}</p>
+            <p>{{ product.price | money }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      <nav class="brand-pagination pagination" aria-label="Pagination">
+        <ul class="pagination__list">
+          <li class="pagination__item">
+            {%- if paginate.previous -%}
+              <a
+                class="pagination__link pagination__link--prev"
+                href="{{ paginate.previous.url }}"
+                aria-label="Previous page"
+                >&larr;</a
+              >
+            {%- else -%}
+              <span class="pagination__link pagination__link--prev pagination__link--disabled" aria-hidden="true"
+                >&larr;</span
+              >
+            {%- endif -%}
+          </li>
+
+          {%- for part in paginate.parts -%}
+            <li class="pagination__item">
+              {%- if part.is_link -%}
+                <a class="pagination__link" href="{{ part.url }}">{{ part.title }}</a>
+              {%- elsif part.title == paginate.current_page -%}
+                <span class="pagination__link pagination__link--current" aria-current="page">{{ part.title }}</span>
+              {%- else -%}
+                <span class="pagination__link pagination__link--gap">{{ part.title }}</span>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+
+          <li class="pagination__item">
+            {%- if paginate.next -%}
+              <a class="pagination__link pagination__link--next" href="{{ paginate.next.url }}" aria-label="Next page"
+                >&rarr;</a
+              >
+            {%- else -%}
+              <span class="pagination__link pagination__link--next pagination__link--disabled" aria-hidden="true"
+                >&rarr;</span
+              >
+            {%- endif -%}
+          </li>
+        </ul>
+      </nav>
+    {%- endif -%}
+  {% endpaginate %}
+{% endif %}
+
+{%- liquid
+  for article in blogs.news.articles
+    assign article_brand = article.metafields.tags.brand.value
+    if article_brand != blank and article_brand.system.id == metaobject.system.id
+      assign last_article = article
+      break
+    endif
+  endfor
+-%}
+
+<section class="brand-articles-section">
+  <h2 class="brand-article__title">{{ 'blog.latest_brand_article' | t: brand: metaobject.name.value }}</h2>
+  <div class="brand-articles-section__content">
+    {% render 'article-card', article: last_article %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brand",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 20
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .brand-product {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: start;
+    align-items: center;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+  }
+  .brand-header {
+    display: flex;
+    gap: 10px;
+    justify-content: start;
+    align-items: center;
+  }
+  .brand-description {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+  }
+  .brand-description-text {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+  }
+  .brand-products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    margin-top: 20px;
+    gap: 10px;
+  }
+  .brand-pagination {
+    margin-top: 24px;
+  }
+  .brand-pagination .pagination__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    list-style: none;
+  }
+  .brand-pagination .pagination__item {
+    margin: 0;
+  }
+  .brand-pagination .pagination__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1;
+  }
+  .brand-pagination .pagination__link--current {
+    border-color: #333;
+    background-color: #333;
+    color: #fff;
+    font-weight: 600;
+  }
+  .brand-pagination .pagination__link--disabled,
+  .brand-pagination .pagination__link--gap {
+    border-color: transparent;
+    background-color: transparent;
+    color: #999;
+  }
+  .brand-pagination a.pagination__link:hover {
+    border-color: #333;
+    background-color: #f5f5f5;
+  }
+  .brand-articles-section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    width: fit-content;
+  }
+  .brand-articles-section__content {
+    display: flex;
+    gap: 20px;
+  }
+  .brand-article__title {
+    margin: 0 0 20px;
+    font-size: 24px;
+  }
+  .brand-article__image {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin-bottom: 16px;
+    border-radius: 10px;
+  }
+  .brand-article__heading {
+    margin: 0 0 8px;
+    font-size: 20px;
+  }
+  .brand-article__meta {
+    margin: 0 0 12px;
+    color: #666;
+  }
+  .brand-article__excerpt {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .brand-article {
+    max-width: 300px;
+  }
+</style>

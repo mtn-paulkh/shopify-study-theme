@@ -1,0 +1,49 @@
+{% comment %}
+  Renders pagination navigation. Must be used inside {% paginate %} tags.
+
+  Accepts:
+  - paginate: {Object} Paginate liquid object
+
+  Usage:
+  {% render 'pagination', paginate: paginate %}
+{% endcomment %}
+
+{%- if paginate.pages > 1 -%}
+  <nav class="pagination" aria-label="Pagination">
+    <ul class="pagination__list">
+      <li class="pagination__item">
+        {%- if paginate.previous -%}
+          <a class="pagination__link pagination__link--prev" href="{{ paginate.previous.url }}" aria-label="Previous page">
+            &larr;
+          </a>
+        {%- else -%}
+          <span class="pagination__link pagination__link--prev pagination__link--disabled" aria-hidden="true">&larr;</span>
+        {%- endif -%}
+      </li>
+
+      {%- for part in paginate.parts -%}
+        <li class="pagination__item">
+          {%- if part.is_link -%}
+            <a class="pagination__link" href="{{ part.url }}">{{ part.title }}</a>
+          {%- else -%}
+            {%- if part.title == paginate.current_page -%}
+              <span class="pagination__link pagination__link--current" aria-current="page">{{ part.title }}</span>
+            {%- else -%}
+              <span class="pagination__link pagination__link--gap">{{ part.title }}</span>
+            {%- endif -%}
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+
+      <li class="pagination__item">
+        {%- if paginate.next -%}
+          <a class="pagination__link pagination__link--next" href="{{ paginate.next.url }}" aria-label="Next page">
+            &rarr;
+          </a>
+        {%- else -%}
+          <span class="pagination__link pagination__link--next pagination__link--disabled" aria-hidden="true">&rarr;</span>
+        {%- endif -%}
+      </li>
+    </ul>
+  </nav>
+{%- endif -%}

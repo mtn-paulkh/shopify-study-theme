@@ -1,0 +1,21 @@
+{% doc %}
+  Renders a brand article.
+
+  @param {article} article - The article to be rendered
+{% enddoc %}
+
+<div class="brand-article">
+  {% if article.image %}
+    <a href="{{ article.url }}">
+      {{ article.image | image_url: width: 1000 | image_tag: class: 'brand-article__image' }}
+    </a>
+  {% endif %}
+  <h3 class="brand-article__heading">
+    {{ article.title | link_to: article.url }}
+  </h3>
+  {% assign date = article.published_at | time_tag: format: 'date' %}
+  <p class="brand-article__meta">
+    {{ 'blog.article_metadata_html' | t: date: date, author: article.author }}
+  </p>
+  <p class="brand-article__excerpt">{{ article.excerpt }}</p>
+</div>
