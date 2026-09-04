@@ -12,9 +12,57 @@
     "main": {
       "type": "hello-world",
       "settings": {}
+    },
+    "brands_kk49Hw": {
+      "type": "brands",
+      "blocks": {
+        "brand_a9AVjW": {
+          "type": "brand",
+          "settings": {
+            "logo": "{{ metaobjects.brand.lacoste.icon.value }}",
+            "title": "{{ metaobjects.brand.lacoste.name.value }}",
+            "link": "{{ metaobjects.brand.lacoste.url_site.value }}",
+            "handle": "lacoste"
+          }
+        },
+        "brand_wTgBw4": {
+          "type": "brand",
+          "settings": {
+            "logo": "{{ metaobjects.brand.puma.icon.value }}",
+            "title": "{{ metaobjects.brand.puma.name.value }}",
+            "link": "{{ metaobjects.brand.puma.url_site.value }}",
+            "handle": "puma"
+          }
+        },
+        "brand_F8ftXh": {
+          "type": "brand",
+          "settings": {
+            "logo": "{{ metaobjects.brand.nike.icon.value }}",
+            "title": "{{ metaobjects.brand.nike.name.value }}",
+            "link": "{{ metaobjects.brand.nike.url_site.value }}",
+            "handle": "nike"
+          }
+        }
+      },
+      "block_order": [
+        "brand_a9AVjW",
+        "brand_wTgBw4",
+        "brand_F8ftXh"
+      ],
+      "name": "t:sections.brands.presets.default",
+      "settings": {
+        "title": "Our brands",
+        "brand_page_prefix": "brand",
+        "columns_desktop": 4,
+        "columns_mobile": 2,
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "brands_kk49Hw"
   ]
 }
