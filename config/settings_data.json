@@ -19,14 +19,7 @@
           "settings": {
             "background": "#ffffff",
             "background_gradient": "",
-            "foreground": "#333333",
-            "foreground_on_background": "#ffffff",
-            "border": "#e5e5e5",
-            "border_on_foreground": "#333333",
-            "accent": "#000000",
-            "accent_hover": "#111111",
-            "accent_secondary": "#666666",
-            "accent_secondary_hover": "#777777"
+            "text": "#333333"
           }
         }
       }

@@ -57,9 +57,48 @@
     "name": "t:general.colors",
     "settings": [
       {
+        "type": "color_scheme_group",
+        "id": "color_schemes",
+        "definition": [
+          {
+            "type": "color",
+            "id": "background",
+            "label": "t:labels.background",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color_background",
+            "id": "background_gradient",
+            "label": "Background gradient"
+          },
+          {
+            "type": "color",
+            "id": "text",
+            "label": "t:labels.foreground",
+            "default": "#333333"
+          }
+        ],
+        "role": {
+          "text": "text",
+          "background": {
+            "solid": "background",
+            "gradient": "background_gradient"
+          },
+          "links": "text",
+          "icons": "text",
+          "primary_button": "text",
+          "on_primary_button": "background",
+          "primary_button_border": "text",
+          "secondary_button": "background",
+          "on_secondary_button": "text",
+          "secondary_button_border": "text"
+        }
+      },
+      {
         "type": "color_scheme",
         "id": "scheme_1",
-        "label": "Primary color scheme"
+        "label": "Primary color scheme",
+        "default": "scheme-1"
       },
       {
         "type": "color",

@@ -55,7 +55,7 @@
         "brand_page_prefix": "brand",
         "columns_desktop": 4,
         "columns_mobile": 2,
-        "color_scheme": "",
+        "color_scheme": "scheme-1",
         "padding_top": 36,
         "padding_bottom": 36
       }
