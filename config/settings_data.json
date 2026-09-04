@@ -8,5 +8,43 @@
  * ------------------------------------------------------------
  */
 {
-  "current": {}
+  "current": {
+    "scheme_1": "scheme-381a6d4b-6d69-434e-a0d5-ea654097083c",
+    "settings": {
+      "scheme_1": "scheme-1"
+    },
+    "content_for_index": [],
+    "color_schemes": {
+      "scheme-1": {
+        "settings": {
+          "background": "#ffffff",
+          "background_gradient": "",
+          "text": "#333333"
+        }
+      },
+      "scheme-381a6d4b-6d69-434e-a0d5-ea654097083c": {
+        "settings": {
+          "background": "#F8B9B9",
+          "background_gradient": "linear-gradient(89deg, rgba(219, 149, 250, 1) 7%, rgba(148, 88, 255, 1) 94%)",
+          "text": "#344636"
+        }
+      }
+    }
+  },
+  "presets": {
+    "default": {
+      "settings": {
+        "scheme_1": "scheme-1"
+      },
+      "color_schemes": {
+        "scheme-1": {
+          "settings": {
+            "background": "#ffffff",
+            "background_gradient": "",
+            "text": "#333333"
+          }
+        }
+      }
+    }
+  }
 }
