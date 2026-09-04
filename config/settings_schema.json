@@ -54,6 +54,16 @@
     ]
   },
   {
+    "name": "Theme settings",
+    "settings": [
+      {
+        "type": "color_scheme",
+        "id": "scheme_1",
+        "label": "Primary color scheme"
+      }
+    ]
+  },
+  {
     "name": "t:general.colors",
     "settings": [
       {
